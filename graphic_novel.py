@@ -41,7 +41,7 @@ class Graphic_Novel(Book):
         containsQuery = super().contains(query)
         if self.artist.find(query) != -1:
             containsQuery = True
-        if self.artist.find(query) != -1:
+        if self.issue.find(query) != -1:
             containsQuery = True
 
         return containsQuery
