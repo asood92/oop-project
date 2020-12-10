@@ -2,38 +2,58 @@ from book import Book
 
 
 class Magazine(Book):
-    def __init__(
-        self,
-        author,
-        title,
-        pagecount,
-        month,
-        year,
-    ):
-        Book.__init__(self, author, title, pagecount)
-        self.author = author
-        self.title = title
-        self.pagecount = pagecount
-        self.month = month
-        self.year = year
+    """
+    Magazine instantiates a magazine object, which both inherits from and is a subclass of Book.
+    _type is not required outside of this class and is protected for that reason
+    """
 
-    def add_magazine(self):
-        return Magazine(self.title, self.author, self.pagecount, self.month, self.year)
+    _type = "Magazine"
 
-    def __str__(self):
-        return f"""
-        *************\n
-        Book Title: {self.title}\n
-        Author: {self.author}\n
-        Page Count: {self.pagecount}\n
-        Month of Issue: {self.month}
-        Year of Issue: {self.year}\n
-        **************"""
+    def __init__(self):
+        """
+        Initializes a graphic novel object, inheriting from book with super()
+        """
+        super().__init__()
+        self.month = self.getMonth()
+        self.year = self.getYear()
+
+    def getMonth(self):
+        """Prompts for user input for issue month
+        Returns:
+            string input
+        """
+        return input(f"Please enter the month of this issue of {self._type}: ")
+
+    def getYear(self):
+        """Prompts for user input for issue year
+        Returns:
+            string input
+        """
+        return input(f"Please enter the year of this issue of {self._type}: ")
+
+    def contains(self, query):
+        """
+        Conditional function to parse through the object for a
+        matching month or year. Inherits from and overrides the contains method in Book.
+        Returns:
+            containsQuery: Boolean flag
+        """
+        containsQuery = super().contains(query)
+        if self.month.find(query) != -1:
+            containsQuery = True
+        if self.year.find(query) != -1:
+            containsQuery = True
+        return containsQuery
+
+    def print_info(self):
+        """
+        Inherits everything in print_info() from Book, adds additional information only pertinent
+        to Magazine, and outputs the full object information
+        """
+        return f"""{super().print_info()}\nMonth of Issue: {self.month}\nYear of Issue: {self.year}"""
 
 
-# if __name__ == "__main__":
-# If you run this file from the terminal this block is run
-# magazine = Magazine("Time Magazine", "A new Hope", 300, "December", "2020")
-# print(
-#     f'{magazine.author} wrote "{magazine.title}" which is {magazine.pagecount} pages long. and which is the {magazine.month} {magazine.year} issue.'
-# )
+if __name__ == "__main__":
+    # If you run this file from the terminal this block is run
+    magazine = Magazine()
+    print(magazine.contains("Test"))
